@@ -6,6 +6,7 @@ import { AuthService } from './service/auth/auth.service';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, RouterLinkActive, RouterLink, NgIf, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

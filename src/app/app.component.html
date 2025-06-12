@@ -12,14 +12,14 @@
           <a class="nav-link" routerLink="home" routerLinkActive="active">Home</a>
         </li>
 
-        <!-- <li class="nav-item" *ngIf="!(authService.isLoggedIn$ | async)">
+        <li class="nav-item">
           <a class="nav-link" routerLink="login" routerLinkActive="active">Login</a>
         </li>
-        <li class="nav-item" *ngIf="!(authService.isLoggedIn$ | async)">
+        <li class="nav-item">
           <a class="nav-link" routerLink="registro" routerLinkActive="active">Registro</a>
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" routerLink="quien-soy" routerLinkActive="active">Quién Soy</a>
         </li>
 
@@ -41,3 +41,7 @@
 </nav>
 
 <router-outlet />
+
+<footer class="bg-light text-center text-muted py-3 mt-5 border-top">
+  <p class="mb-0">&copy; 2025 Urgencias Matías. Todos los derechos reservados.</p>
+</footer>

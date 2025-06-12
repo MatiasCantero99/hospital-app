@@ -1,1 +1,34 @@
-<p>login works!</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title text-center text-primary mb-4">Iniciar Sesión</h3>
+
+          <form>
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+            </div>
+
+            <!-- Botón de login -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Ingresar</button>
+            </div>
+          </form>
+
+          <div class="text-center mt-3">
+            <small>¿No tenés cuenta? <a [routerLink]="'/registro'">Registrate</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
