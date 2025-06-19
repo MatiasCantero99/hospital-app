@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h3 class="text-center text-primary mb-4">Registro de Especialista</h3>
 
-  <form [formGroup]="especialistaForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="especialistaForm" (ngSubmit)="register()">
     <div class="mb-3">
       <label class="form-label">Correo electrónico</label>
       <input type="email" class="form-control" formControlName="email">
@@ -22,13 +22,52 @@
       <input type="password" class="form-control" formControlName="password">
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Especialización</label>
-      <select class="form-select" formControlName="especialidad">
-        <option value="">Seleccione una opción</option>
-        <option *ngFor="let e of especialidades" [value]="e">{{ e }}</option>
-      </select>
+  <div formArrayName="especialidades">
+  <div *ngFor="let esp of especialidadesForm.controls; let i = index" [formGroupName]="i" class="mb-3">
+    <label class="form-label">Especialización {{ i + 1 }}</label>
+    <select class="form-select" formControlName="valor">
+      <option value="">Seleccione una opción</option>
+      <option 
+        *ngFor="let e of especialidadesDisponibles" 
+        [value]="e" 
+        [disabled]="especialidadesSeleccionadas.includes(e)">
+        {{ e }}
+      </option>
+    </select>
+  </div>
+
+  <button type="button" class="btn btn-secondary btn-sm mb-3" (click)="agregarEspecialidad()">+ Agregar otra especialidad</button>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">¿Querés agregar una nueva especialidad?</label>
+  <input type="text" class="form-control" formControlName="nuevaEspecialidad" placeholder="Ej: Pediatría">
+</div>
+
+
+  <div class="mb-3">
+    <label class="form-label">Edad</label>
+    <input type="number" class="form-control" formControlName="edad" min="0">
+    <div *ngIf="especialistaForm.get('edad')?.invalid && especialistaForm.get('edad')?.touched" class="text-danger">
+      Ingresá una edad válida (entre 18 y 99).
     </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">DNI</label>
+    <input type="text" class="form-control" formControlName="dni">
+    <div *ngIf="especialistaForm.get('dni')?.invalid && especialistaForm.get('dni')?.touched" class="text-danger">
+      Ingresá un DNI válido (solo números).
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Foto</label>
+    <input type="file" class="form-control" (change)="onFileChange($event)">
+    <div *ngIf="fotoInvalida" class="text-danger">
+      Seleccioná una imagen.
+    </div>
+  </div>
 
     <button type="submit" class="btn btn-primary w-100" [disabled]="especialistaForm.invalid">
       Registrarme

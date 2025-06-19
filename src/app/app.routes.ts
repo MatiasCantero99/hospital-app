@@ -5,6 +5,8 @@ import { ErrorComponent } from './componentes/error/error.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { RegistroPacienteComponent } from './componentes/registro-paciente/registro-paciente.component';
 import { RegistroEspecialistaComponent } from './componentes/registro-especialista/registro-especialista.component';
+import { UsuarioComponent } from './componentes/usuario/usuario.component';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -21,12 +23,9 @@ export const routes: Routes = [
         component: HomeComponent
     },
     {
-        path: 'registro/paciente',
-        component: RegistroPacienteComponent
-    },
-    {
-        path: 'registro/especialista',
-        component: RegistroEspecialistaComponent
+        path: 'usuario',
+        component: UsuarioComponent,
+        canActivate:[adminGuard]
     },
     {
         path:'registro',

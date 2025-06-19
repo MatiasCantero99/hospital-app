@@ -11,14 +11,29 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class RegistroPacienteComponent {
   pacienteForm: FormGroup;
+  foto: File | null = null;
+  fotoInvalida: boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.pacienteForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      edad: [null, [Validators.required, Validators.min(0)]],
+      dni: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
     });
+  }
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.foto = input.files[0];
+      this.fotoInvalida = false;
+    } else {
+      this.foto = null;
+      this.fotoInvalida = true;
+    }
   }
 
   onSubmit() {

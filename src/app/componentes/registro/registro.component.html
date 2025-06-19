@@ -2,36 +2,22 @@
   <h2 class="text-center mb-4 text-primary">¿Cómo desea registrarse?</h2>
 
   <div class="row justify-content-center">
-  
-    <div class="col-md-5 mb-4">
-      <div class="card shadow h-100">
-        <img src="../../../assets/img/doctor.png" class="card-img-top" alt="Especialista">
-        <div class="card-body">
-          <h5 class="card-title text-center">Registrarme como Especialista</h5>
-          <p class="card-text">
-            Si sos médico o personal de salud especializado, registrate aquí para formar parte del equipo de Urgencias Matías.
-          </p>
-          <div class="text-center">
-             <a [routerLink]="['/registro/especialista']" class="btn btn-primary">Registro Especialista</a>
-          </div>
-        </div>
-      </div>
+    <!-- Especialista -->
+    <div class="col-md-5 mb-4 text-center">
+      <a [routerLink]="['/registro/especialista']">
+        <img src="../../../assets/img/doctor.png" class="rounded-circle img-bordered mb-3" alt="Especialista">
+      </a>
+      <h5>Especialista</h5>
     </div>
 
-  
-    <div class="col-md-5 mb-4">
-      <div class="card shadow h-100">
-        <img src="../../../assets/img/persona.png" class="card-img-top" alt="Paciente">
-        <div class="card-body">
-          <h5 class="card-title text-center">Registrarme como Paciente</h5>
-          <p class="card-text">
-            Si necesitás atención médica o querés gestionar tus turnos y estudios, registrate como paciente.
-          </p>
-          <div class="text-center">
-            <a [routerLink]="['/registro/paciente']" class="btn btn-success">Registro Paciente</a>
-          </div>
-        </div>
-      </div>
+    <!-- Paciente -->
+    <div class="col-md-5 mb-4 text-center">
+      <a [routerLink]="['/registro/paciente']">
+        <img src="../../../assets/img/persona.png" class="rounded-circle img-bordered mb-3" alt="Paciente">
+      </a>
+      <h5>Paciente</h5>
     </div>
   </div>
 </div>
+
+

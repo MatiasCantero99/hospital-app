@@ -25,6 +25,30 @@
       <input type="password" class="form-control" formControlName="password">
     </div>
 
+  <div class="mb-3">
+    <label class="form-label">Edad</label>
+    <input type="number" class="form-control" formControlName="edad" min="0">
+    <div *ngIf="pacienteForm.get('edad')?.invalid && pacienteForm.get('edad')?.touched" class="text-danger">
+      Ingresá una edad válida.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">DNI</label>
+    <input type="text" class="form-control" formControlName="dni">
+    <div *ngIf="pacienteForm.get('dni')?.invalid && pacienteForm.get('dni')?.touched" class="text-danger">
+      Ingresá un DNI válido (solo números).
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Foto</label>
+    <input type="file" class="form-control" (change)="onFileChange($event)">
+    <div *ngIf="fotoInvalida" class="text-danger">
+      Seleccioná una imagen.
+    </div>
+  </div>
+
     <button type="submit" class="btn btn-success w-100" [disabled]="pacienteForm.invalid">
       Registrarme
     </button>
