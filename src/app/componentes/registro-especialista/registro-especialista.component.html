@@ -22,27 +22,39 @@
       <input type="password" class="form-control" formControlName="password">
     </div>
 
-  <div formArrayName="especialidades">
-  <div *ngFor="let esp of especialidadesForm.controls; let i = index" [formGroupName]="i" class="mb-3">
-    <label class="form-label">Especialización {{ i + 1 }}</label>
-    <select class="form-select" formControlName="valor">
-      <option value="">Seleccione una opción</option>
-      <option 
-        *ngFor="let e of especialidadesDisponibles" 
-        [value]="e" 
-        [disabled]="especialidadesSeleccionadas.includes(e)">
-        {{ e }}
-      </option>
-    </select>
+<div class="mb-3">
+  <label class="form-label">Especialidades</label>
+  <div *ngFor="let esp of especialidadesDisponibles">
+    <input 
+      type="checkbox" 
+      [value]="esp" 
+      (change)="onEspecialidadChange($event)" 
+      [checked]="especialistaForm.value.especialidades.includes(esp)">
+    {{ esp }}
   </div>
-
-  <button type="button" class="btn btn-secondary btn-sm mb-3" (click)="agregarEspecialidad()">+ Agregar otra especialidad</button>
 </div>
 
 <div class="mb-3">
-  <label class="form-label">¿Querés agregar una nueva especialidad?</label>
-  <input type="text" class="form-control" formControlName="nuevaEspecialidad" placeholder="Ej: Pediatría">
+  <label class="form-label">¿Querés agregar nuevas especialidades?</label>
+
+  <div formArrayName="nuevasEspecialidades">
+    <div *ngFor="let nueva of nuevasEspecialidadesForm.controls; let i = index" class="d-flex gap-2 mb-2 align-items-center">
+      <input 
+        type="text" 
+        class="form-control" 
+        [formControlName]="i" 
+        placeholder="Ej: Pediatría">
+      <button type="button" class="btn btn-danger btn-sm" (click)="eliminarNuevaEspecialidad(i)">
+        Eliminar
+      </button>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-sm btn-secondary mt-1" (click)="agregarNuevaEspecialidad()">
+    + Agregar otra especialidad
+  </button>
 </div>
+
 
 
   <div class="mb-3">
@@ -68,6 +80,8 @@
       Seleccioná una imagen.
     </div>
   </div>
+
+  <div id="captcha-element" class="mb-3"></div>
 
     <button type="submit" class="btn btn-primary w-100" [disabled]="especialistaForm.invalid">
       Registrarme
