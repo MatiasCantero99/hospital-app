@@ -13,6 +13,7 @@ export class AuthService {
   private supabase: SupabaseClient;
   public isLoggedIn$ = new BehaviorSubject<boolean>(false);
   public currentUser$ = new BehaviorSubject<any>(null);
+  public currentUserRole$ = new BehaviorSubject<string | null>(null);
 
   constructor() { 
     this.supabase = createClient(environment.supabaseUrl,environment.supabaseKey);
@@ -25,6 +26,10 @@ export class AuthService {
 
     if (session?.user) {
     this.currentUser$.next(session.user);
+    this.getUserData().subscribe(userData => {
+    const rol = userData?.rol ?? null;
+    this.currentUserRole$.next(rol);
+  });
   }
 
     this.supabase.auth.onAuthStateChange((event, session) => {
@@ -46,66 +51,51 @@ export class AuthService {
     }
   }
 
+  getUserData(): Observable<any> {
+    return from(this.supabase.auth.getUser()).pipe(
+      switchMap(({ data }) => {
+        const email = data?.user?.email;
+        if (!email) return of(null);
 
-//   getUserData(): Observable<any> {
-//   return from(this.supabase.auth.getUser()).pipe(
-//     switchMap(({ data }) => {
-//       const email = data?.user?.email;
-//       if (!email) return of(null);
+        // Intenta buscar en 'administrador'
+        return from(this.supabase
+          .from('admin')
+          .select('*')
+          .eq('email', email)
+          .maybeSingle()
+        ).pipe(
+          switchMap(result => {
+            if (result.data) return of(result.data);
 
-//       return from(
-//         this.supabase
-//           .from('usuarios') // cambialo por 'especialista' o 'paciente' si corresponde
-//           .select('*')
-//           .eq('email', email)
-//           .single()
-//       ).pipe(
-//         switchMap(result => of(result.data)) // ahora es 100% observable
-//       );
-//     })
-//   );
-// }
-getUserData(): Observable<any> {
-  return from(this.supabase.auth.getUser()).pipe(
-    switchMap(({ data }) => {
-      const email = data?.user?.email;
-      if (!email) return of(null);
+            // Si no está en 'administrador', buscar en 'especialista'
+            return from(this.supabase
+              .from('especialista')
+              .select('*')
+              .eq('email', email)
+              .single()
+            ).pipe(
+              switchMap(result => {
+                if (result.data) return of(result.data);
 
-      // Intenta buscar en 'administrador'
-      return from(this.supabase
-        .from('admin')
-        .select('*')
-        .eq('email', email)
-        .single()
-      ).pipe(
-        switchMap(result => {
-          if (result.data) return of(result.data);
+                // Si no está en 'especialista', buscar en 'paciente'
+                return from(this.supabase
+                  .from('paciente')
+                  .select('*')
+                  .eq('email', email)
+                  .single()
+                ).pipe(
+                  switchMap(result => of(result.data || null))
+                );
+              })
+            );
+          })
+        );
+      })
+    );
+  }
 
-          // Si no está en 'administrador', buscar en 'especialista'
-          return from(this.supabase
-            .from('especialista')
-            .select('*')
-            .eq('email', email)
-            .single()
-          ).pipe(
-            switchMap(result => {
-              if (result.data) return of(result.data);
-
-              // Si no está en 'especialista', buscar en 'paciente'
-              return from(this.supabase
-                .from('paciente')
-                .select('*')
-                .eq('email', email)
-                .single()
-              ).pipe(
-                switchMap(result => of(result.data || null))
-              );
-            })
-          );
-        })
-      );
-    })
-  );
-}
+  getSupabase(): SupabaseClient {
+    return this.supabase;
+  }
 
 }

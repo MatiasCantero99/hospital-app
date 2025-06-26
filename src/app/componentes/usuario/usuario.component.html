@@ -1,31 +1,44 @@
 <div class="container mt-4">
-  <h2 class="text-center mb-4">Especialistas</h2>
+  <h2 class="text-center mb-4">Usuarios</h2>
+
+  <div class="mb-3 text-center">
+    <select class="form-select w-auto d-inline" [(ngModel)]="tipoSeleccionado" (change)="cargarUsuarios()">
+      <option value="especialista">Especialistas</option>
+      <option value="administrador">Administradores</option>
+      <option value="paciente">Pacientes</option>
+    </select>
+
+    <button class="btn btn-primary ms-2" (click)="exportarExcel()">Descargar Excel</button>
+  </div>
+
   <table class="table table-bordered text-center align-middle">
     <thead class="table-dark">
       <tr>
         <th>Foto</th>
         <th>Nombre</th>
+        <th>Apellido</th>
         <th>Email</th>
-        <th>Habilitado</th>
-        <th>Acción</th>
+        <th *ngIf="tipoSeleccionado === 'especialista'">Habilitado</th>
+        <th *ngIf="tipoSeleccionado === 'especialista'">Acción</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let esp of especialistas">
+      <tr *ngFor="let user of usuarios">
         <td>
-          <img [src]="esp.fotoURL" alt="Foto" width="60" height="60" class="rounded-circle border">
+          <img [src]="user.fotoURL" alt="Foto" width="60" height="60" class="rounded-circle border">
         </td>
-        <td>{{ esp.nombre }}</td>
-        <td>{{ esp.email }}</td>
-        <td>
-          <span class="badge" [ngClass]="esp.habilitado ? 'bg-success' : 'bg-danger'">
-            {{ esp.habilitado ? 'Sí' : 'No' }}
+        <td>{{ user.nombre }}</td>
+        <td>{{ user.apellido }}</td>
+        <td>{{ user.email }}</td>
+        <td *ngIf="tipoSeleccionado === 'especialista'">
+          <span class="badge" [ngClass]="user.habilitado ? 'bg-success' : 'bg-danger'">
+            {{ user.habilitado ? 'Sí' : 'No' }}
           </span>
         </td>
-        <td>
-          <button (click)="cambiarEstado(esp)" class="btn btn-sm" 
-                  [ngClass]="esp.habilitado ? 'btn-danger' : 'btn-success'">
-            {{ esp.habilitado ? 'Deshabilitar' : 'Habilitar' }}
+        <td *ngIf="tipoSeleccionado === 'especialista'">
+          <button (click)="cambiarEstado(user)" class="btn btn-sm"
+                  [ngClass]="user.habilitado ? 'btn-danger' : 'btn-success'">
+            {{ user.habilitado ? 'Deshabilitar' : 'Habilitar' }}
           </button>
         </td>
       </tr>

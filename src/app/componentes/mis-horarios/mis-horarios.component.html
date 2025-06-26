@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-primary">Mis Horarios</h2>
+
+  <form (ngSubmit)="guardarHorarios()" class="card p-3 shadow">
+    <div class="mb-3">
+      <label for="especialidad" class="form-label">Especialidad</label>
+      <select class="form-select" [(ngModel)]="especialidadSeleccionada" name="especialidad" required>
+        <option *ngFor="let esp of especialidades" [value]="esp">{{ esp }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="dia" class="form-label">Día de la semana</label>
+      <select class="form-select" [(ngModel)]="diaSeleccionado" name="dia" required>
+        <option *ngFor="let dia of diasDisponibles" [value]="dia">{{ dia }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <label class="form-label">Hora de inicio</label>
+        <select class="form-select" [(ngModel)]="horaInicio" name="horaInicio" required>
+          <option *ngFor="let hora of horasDisponibles" [value]="hora">{{ hora }}</option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="form-label">Hora de fin</label>
+        <select class="form-select" [(ngModel)]="horaFin" name="horaFin" required>
+          <option *ngFor="let hora of horasDisponibles" [value]="hora">{{ hora }}</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3 w-100">Guardar horarios</button>
+  </form>
+
+  <hr class="my-4">
+
+  <h4 class="mb-3">Disponibilidades actuales</h4>
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let turno of horariosActuales">
+      {{ turno.dia }} - {{ turno.hora }} - {{ turno.especialidad }}
+      <button class="btn btn-sm btn-outline-danger" (click)="eliminarTurno(turno)">Eliminar</button>
+    </li>
+  </ul>
+</div>

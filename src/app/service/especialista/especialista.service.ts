@@ -29,4 +29,14 @@ export class EspecialistaService {
 
     if (error) throw error;
   }
+
+  async getEspecialidadesByEmail(email: string) {
+    const { data, error } = await this.supabase
+      .from('especialidad')
+      .select('*')
+      .eq('email', email);
+
+    if (error) throw error;
+    return data.map(e => e.especialidad);
+  }
 }

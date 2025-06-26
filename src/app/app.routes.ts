@@ -2,11 +2,10 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './componentes/login/login.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { ErrorComponent } from './componentes/error/error.component';
-import { RegistroComponent } from './componentes/registro/registro.component';
-import { RegistroPacienteComponent } from './componentes/registro-paciente/registro-paciente.component';
-import { RegistroEspecialistaComponent } from './componentes/registro-especialista/registro-especialista.component';
 import { UsuarioComponent } from './componentes/usuario/usuario.component';
 import { adminGuard } from './guards/admin.guard';
+import { MiPerfilComponent } from './componentes/mi-perfil/mi-perfil.component';
+import { MisHorariosComponent } from './componentes/mis-horarios/mis-horarios.component';
 
 export const routes: Routes = [
     {
@@ -26,6 +25,14 @@ export const routes: Routes = [
         path: 'usuario',
         component: UsuarioComponent,
         canActivate:[adminGuard]
+    },
+    {
+        path: 'miPerfil',
+        component: MiPerfilComponent
+    },
+    {
+        path: 'misHorarios',
+        component: MisHorariosComponent
     },
     {
         path:'registro',
