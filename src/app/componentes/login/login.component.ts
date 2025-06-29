@@ -6,13 +6,15 @@ import { AuthService } from '../../service/auth/auth.service';
 import { createClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 import { LoadingService } from '../../service/loading/loading.service';
+import { LoadingComponent } from '../loading/loading.component';
+import { CommonModule } from '@angular/common';
 
 const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, LoadingComponent,CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -24,7 +26,7 @@ export class LoginComponent {
     private auth: AuthService,
     private toastr: ToastrService,
     private router: Router,
-    private loadingService: LoadingService
+    public loadingService: LoadingService
   ) {}
 
   setCredentials(email: string, password: string) {
@@ -35,7 +37,7 @@ export class LoginComponent {
   async login() {
     this.loadingService.show(); // ⏳ Mostrar spinner
     console.log('Email:', this.email);
-  console.log('Password:', this.password);
+    console.log('Password:', this.password);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: this.email,
       password: this.password

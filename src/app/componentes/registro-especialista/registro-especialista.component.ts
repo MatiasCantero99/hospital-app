@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { createClient } from '@supabase/supabase-js';
 import { LoadingService } from '../../service/loading/loading.service';
 import { AfterViewInit } from '@angular/core';
+import { LoadingComponent } from '../loading/loading.component';
 
 const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
@@ -15,7 +16,7 @@ declare var grecaptcha: any;
 @Component({
   selector: 'app-registro-especialista',
   standalone:true,
-  imports: [NgFor,CommonModule,ReactiveFormsModule],
+  imports: [NgFor,CommonModule,ReactiveFormsModule, LoadingComponent],
   templateUrl: './registro-especialista.component.html',
   styleUrl: './registro-especialista.component.scss'
 })
@@ -32,7 +33,7 @@ export class RegistroEspecialistaComponent implements AfterViewInit {
 
   
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private toastr: ToastrService, private loadingService: LoadingService) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private toastr: ToastrService, public loadingService: LoadingService) {
     this.especialistaForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       nombre: ['', Validators.required],

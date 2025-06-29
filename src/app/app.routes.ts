@@ -28,11 +28,13 @@ export const routes: Routes = [
     },
     {
         path: 'miPerfil',
-        component: MiPerfilComponent
+        component: MiPerfilComponent,
+        data: { animation: 'perfil' }
     },
     {
         path: 'misHorarios',
-        component: MisHorariosComponent
+        component: MisHorariosComponent,
+        data: { animation: 'horarios' }
     },
     {
         path:'registro',

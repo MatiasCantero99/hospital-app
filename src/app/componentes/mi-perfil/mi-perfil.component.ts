@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
+import { ResaltarRolDirective } from '../../directiva/resaltar-rol.directive';
+import { RoliconoPipe } from '../../pipes/rolicono.pipe';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, ResaltarRolDirective,RoliconoPipe],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.scss'
 })

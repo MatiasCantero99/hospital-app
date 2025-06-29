@@ -43,16 +43,6 @@ export class UsuarioComponent implements OnInit{
     }
   }
 
-  // async cambiarEstado(especialista: any) {
-  //   const nuevoEstado = !especialista.habilitado;
-  //   try {
-  //     await this.especialistaService.toggleHabilitado(especialista.id, nuevoEstado);
-  //     especialista.habilitado = nuevoEstado; // actualiza visualmente
-  //   } catch (error) {
-  //     console.error('Error al cambiar estado:', error);
-  //   }
-  // }
-
    exportarExcel() {
     const datos = this.usuarios.map(u => ({
       Nombre: u.nombre,

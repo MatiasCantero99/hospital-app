@@ -1,7 +1,7 @@
 <div class="container mt-5" *ngIf="usuario; else cargando">
   <h2 class="mb-4 text-center text-primary">Mi Perfil</h2>
 
-  <div class="card p-3 shadow">
+  <div class="card p-3 shadow" [appResaltarRol]="usuario.rol">
     <div class="text-center mb-3">
       <img 
         [src]="usuario.fotoURL || 'https://via.placeholder.com/150'" 
@@ -14,11 +14,11 @@
     <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
     <p><strong>Email:</strong> {{ usuario.email }}</p>
     <p><strong>Edad:</strong> {{ usuario.edad }}</p>
-    <p><strong>Rol:</strong> {{ usuario.rol }}</p>
+    <p><strong>Rol:</strong> {{ usuario.rol | rolicono }}</p>
 
     <!-- Mostrar segunda foto si existe (paciente) -->
     <div *ngIf="usuario.fotoURL1" class="mt-3 text-center">
-      <p class="mb-1"><strong>Otra imagen (Historia clínica o similar):</strong></p>
+      <p class="mb-1"><strong>Segunda foto:</strong></p>
       <img [src]="usuario.fotoURL1" alt="Foto secundaria" class="img-fluid rounded" width="200">
     </div>
 
@@ -37,3 +37,4 @@
     <p class="mt-2">Cargando perfil...</p>
   </div>
 </ng-template>
+
