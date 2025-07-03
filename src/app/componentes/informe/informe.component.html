@@ -1,0 +1,143 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Informes del Sistema</h2>
+
+  <div class="d-flex flex-wrap gap-2 mb-3">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': informeSeleccionado === 'especialidad', 'btn-secondary': informeSeleccionado !== 'especialidad'}"
+      (click)="seleccionarInforme('especialidad')">
+      Turnos por Especialidad
+    </button>
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': informeSeleccionado === 'dia', 'btn-secondary': informeSeleccionado !== 'dia'}"
+      (click)="seleccionarInforme('dia')">
+      Turnos por Día
+    </button>
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': informeSeleccionado === 'medicoSolicitados', 'btn-secondary': informeSeleccionado !== 'medicoSolicitados'}"
+      (click)="seleccionarInforme('medicoSolicitados')">
+      Turnos por Médico (Solicitados)
+    </button>
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': informeSeleccionado === 'medicoFinalizados', 'btn-secondary': informeSeleccionado !== 'medicoFinalizados'}"
+      (click)="seleccionarInforme('medicoFinalizados')">
+      Turnos por Médico (Finalizados)
+    </button>
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': informeSeleccionado === 'log', 'btn-secondary': informeSeleccionado !== 'log'}"
+      (click)="seleccionarInforme('log')">
+      Log de Ingresos
+    </button>
+  </div>
+
+  <div *ngIf="informeSeleccionado === 'medicoSolicitados' || informeSeleccionado === 'medicoFinalizados'" class="mb-3">
+    <label>Desde: <input type="date" [(ngModel)]="fechaDesde" class="form-control d-inline-block w-auto ms-2 me-3"></label>
+    <label>Hasta: <input type="date" [(ngModel)]="fechaHasta" class="form-control d-inline-block w-auto"></label>
+    <button class="btn btn-outline-primary ms-3" (click)="cargarTurnosConFiltro()">Buscar</button>
+  </div>
+
+
+  <!-- Sección de informe -->
+  <ng-container *ngIf="informeSeleccionado === 'especialidad'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Turnos por Especialidad</h5>
+        <canvas #graficoEspecialidad
+          baseChart
+          [data]="{ labels: labelsEspecialidad, datasets: datasetsEspecialidad }"
+          [options]="barChartOptions"
+          [legend]="true"
+          [type]="'bar'">
+        </canvas>
+        <div *ngIf="mayorEspecialidad" class="mt-3">
+          <strong>Día con más turnos:</strong> {{ mayorEspecialidad.especialidad}} ({{ mayorEspecialidad.cantidad }})
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="informeSeleccionado === 'dia'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Turnos por Día</h5>
+        <canvas #graficoDia
+          baseChart
+          [data]="{ labels: labelsPorDia, datasets: datasetsPorDia }"
+          [options]="barChartOptions"
+          [legend]="true"
+          [type]="'bar'">
+        </canvas>
+        <div *ngIf="mayorDia" class="mt-3">
+          <strong>Día con más turnos:</strong> {{ mayorDia.fecha | fechaFormat}} ({{ mayorDia.cantidad }})
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="informeSeleccionado === 'medicoFinalizados'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Turnos Finalizados por Médico</h5>
+        <canvas #graficoFinalizados
+          baseChart
+          [data]="{ labels: labelsFinalizadosMedico, datasets: datasetsFinalizadosMedico }"
+          [options]="barChartOptions"
+          [legend]="true"
+          [type]="'bar'">
+        </canvas>
+        <div *ngIf="medicoConMasFinalizados" class="mt-3">
+          <strong>Médico con más turnos finalizados:</strong> {{ medicoConMasFinalizados.emailEspecialista }} ({{ medicoConMasFinalizados.cantidad }})
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="informeSeleccionado === 'medicoSolicitados'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Turnos Solicitados por Médico</h5>
+        <canvas #graficoSolicitados
+          baseChart
+          [data]="{ labels: labelsSolicitadosMedico, datasets: datasetsSolicitadosMedico }"
+          [options]="barChartOptions"
+          [legend]="true"
+          [type]="'bar'">
+        </canvas>
+        <div *ngIf="medicoConMasSolicitados" class="mt-3">
+          <strong>Médico con más turnos solicitados:</strong> {{ medicoConMasSolicitados.emailEspecialista }} ({{ medicoConMasSolicitados.cantidad }})
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+ <ng-container *ngIf="informeSeleccionado === 'log'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Cantidad de Ingresos al Sistema por Día</h5>
+
+        <canvas #graficoLogs
+          baseChart
+          [data]="{ labels: labelsLogs, datasets: datasetsLogs }"
+          [options]="barChartOptions"
+          [legend]="true"
+          [type]="'bar'">
+        </canvas>
+
+        <div *ngIf="diaConMasLogins" class="mt-3">
+          <strong>Día con más ingresos:</strong>
+          {{ diaConMasLogins.fechas }} ({{ diaConMasLogins.cantidad }})
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *ngIf="informeSeleccionado">
+    <button (click)="descargarPDFConGrafico()" class="btn btn-primary">Descargar PDF con gráfico</button>
+    <button class="btn btn-success" (click)="descargarExcel()">Descargar Excel</button>
+  </div>
+
+</div>

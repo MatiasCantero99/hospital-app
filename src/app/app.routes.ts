@@ -10,6 +10,7 @@ import { MisTurnosComponent } from './componentes/mis-turnos/mis-turnos.componen
 import { SolicitarTurnoComponent } from './componentes/solicitar-turno/solicitar-turno.component';
 import { TurnosComponent } from './componentes/turnos/turnos.component';
 import { PacientesComponent } from './componentes/pacientes/pacientes.component';
+import { InformeComponent } from './componentes/informe/informe.component';
 
 export const routes: Routes = [
     {
@@ -68,6 +69,10 @@ export const routes: Routes = [
         path:'registro',
         loadChildren: () =>
         import('./modulos/registro/registro.module').then(m => m.RegistroModule)
+    },
+    {
+        path: 'informes',
+        component: InformeComponent
     },
     {
         path: '**',

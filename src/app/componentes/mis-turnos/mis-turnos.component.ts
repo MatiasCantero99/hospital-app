@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 import { EspecialistaService } from '../../service/especialista/especialista.service';
 import { PacientesService } from '../../service/pacientes/pacientes.service';
 import { AuthService } from '../../service/auth/auth.service';
+import { FechaFormatPipe } from '../../pipes/fechaFormat/fecha-format.pipe';
+import { EstadoturnocolorDirective } from '../../directiva/estadoturnocolor/estadoturnocolor.directive';
+import { TieneResenaDirective } from '../../directiva/tieneResena/tiene-resena.directive';
 
 const supabase: SupabaseClient = createClient(environment.supabaseUrl, environment.supabaseKey);
 declare var bootstrap: any;
@@ -17,7 +20,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-mis-turnos',
   standalone:true,
-  imports: [CommonModule, FormsModule, LoadingComponent, NgIf, NgFor],
+  imports: [CommonModule, FormsModule, LoadingComponent, NgIf, NgFor, FechaFormatPipe,EstadoturnocolorDirective,TieneResenaDirective],
   templateUrl: './mis-turnos.component.html',
   styleUrl: './mis-turnos.component.scss'
 })

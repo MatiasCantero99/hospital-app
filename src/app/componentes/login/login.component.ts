@@ -90,6 +90,12 @@ export class LoginComponent {
         }
 
         this.toastr.success(`Bienvenido ${tabla}`);
+
+        await supabase.from('logs').insert({
+          usuario: user.email,
+          fechas: new Date().toISOString()
+        });
+
         this.loadingService.hide(); // ✅ Ocultar spinner siempre
         this.router.navigate(['/home']);
         return;

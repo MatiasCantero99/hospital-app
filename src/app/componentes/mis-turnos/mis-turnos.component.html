@@ -27,11 +27,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let turno of turnosFiltrados">
+      <tr *ngFor="let turno of turnosFiltrados" [appEstadoturnocolor]="turno.estado" [appTieneResena]="turno.resena">
         <td>{{ turno.especialidad }}</td>
         <td *ngIf="rol === 'paciente'">{{ turno.especialista_nombre }}</td>
         <td *ngIf="rol === 'especialista'">{{ turno.paciente_nombre }}</td>
-        <td>{{ turno.fecha }}</td>
+        <td>{{ turno.fecha | fechaFormat}}</td>
         <td>{{turno.horario}}</td>
         <td *ngIf="hayResena() && rol === 'paciente'">{{ turno.resena }}</td>
         <td *ngIf="hayComentario() && rol === 'especialista'">{{ turno.atencion }}</td>

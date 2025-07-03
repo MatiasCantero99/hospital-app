@@ -17,17 +17,9 @@ export class FechaFormatPipe implements PipeTransform {
       year: 'numeric'
     };
 
-    const opcionesHora: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-      timeZone: 'America/Argentina/Buenos_Aires'
-    };
-
     const fechaStr = fecha.toLocaleDateString('es-AR', opcionesFecha);
-    const horaStr = fecha.toLocaleTimeString('es-AR', opcionesHora);
 
-    return `${fechaStr} - ${horaStr} hs`;
+    return `${fechaStr}`;
   }
 
 }
