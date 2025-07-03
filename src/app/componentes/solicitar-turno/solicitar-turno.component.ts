@@ -36,6 +36,7 @@ export class SolicitarTurnoComponent implements OnInit{
     this.inicializarUsuario();
     try {
       this.especialistas = await this.especialistaService.getEspecialistas();
+      console.log('Especialistas cargados:', this.especialistas);
     } catch (error) {
       console.error('Error al cargar especialistas:', error);
     }
@@ -90,7 +91,8 @@ export class SolicitarTurnoComponent implements OnInit{
       this.especialidadSeleccionada
     );
 
-    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
     const hoy = new Date();
 
     // Preparar fechas posibles

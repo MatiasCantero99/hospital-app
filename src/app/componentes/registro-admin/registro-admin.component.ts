@@ -9,6 +9,7 @@ import { createClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 
 const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+declare var grecaptcha: any;
 
 @Component({
   selector: 'app-registro-admin',
@@ -22,6 +23,9 @@ export class RegistroAdminComponent {
   foto: File | null = null;
   fotoInvalida: boolean = false;
 
+  captchaResuelto: boolean = false;
+  captchaToken: string | null = null;
+
   constructor(private fb: FormBuilder, private toastr: ToastrService, private router: Router, public loadingService: LoadingService) {
     this.adminForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -31,6 +35,28 @@ export class RegistroAdminComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngAfterViewInit() {
+    const intentarRenderCaptcha = () => {
+      if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.ready(() => {
+          grecaptcha.render('captcha-element', {
+            sitekey: '6LeCC2grAAAAAEm06GhsjfxCv9WPxpk9raD8NT-X',
+            callback: (token: string) => this.onCaptchaResolved(token)
+          });
+        });
+      } else {
+        setTimeout(intentarRenderCaptcha, 500);
+      }
+    };
+
+    intentarRenderCaptcha();
+  }
+
+  onCaptchaResolved(token: string) {
+    this.captchaResuelto = true;
+    this.captchaToken = token;
   }
 
   onFileChange(event: Event): void {
@@ -98,7 +124,7 @@ export class RegistroAdminComponent {
       dni: formValue.dni,
       email: formValue.email,
       password: formValue.password,
-      rol: 'admin',
+      rol: 'administrador',
       fotoURL: publicUrl.publicUrl,
       authid: authID
     };

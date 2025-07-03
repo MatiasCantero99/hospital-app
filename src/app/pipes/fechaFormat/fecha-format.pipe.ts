@@ -9,7 +9,7 @@ export class FechaFormatPipe implements PipeTransform {
   transform(fechaISO: string): string {
     if (!fechaISO) return '';
 
-    const fecha = new Date(fechaISO);
+    const fecha = new Date(fechaISO + 'T00:00:00'); // Fuerza hora local
 
     const opcionesFecha: Intl.DateTimeFormatOptions = {
       day: '2-digit',
