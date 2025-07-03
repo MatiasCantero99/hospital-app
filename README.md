@@ -1,10 +1,14 @@
-🏥 Urgencias Matías
+<h1 align="center">🏥 Urgencias Matías</h1>
 Urgencias Matías es una aplicación web pensada para la gestión de una sala de urgencias. Permite a pacientes y personal médico registrarse, solicitar turnos, visualizar estadísticas y más. Está diseñada para ser intuitiva, eficiente y adaptable a distintos roles.
 
-🔗 Enlace a la página
-👉 Acceder a Urgencias Matías
+---
 
-📸 Capturas de pantalla por sección
+#🔗 Enlace a la página
+👉 [Ir a Urgencias Matías](https://LINK-DE-TU-PÁGINA.com)
+
+---
+
+#📸 Capturas de pantalla por sección
 🏠 Home
 Descripción:
 Vista principal de bienvenida donde los usuarios pueden acceder a distintas funcionalidades según su rol (admin, paciente, especialista).
