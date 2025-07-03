@@ -1,59 +1,35 @@
-# HospitalApp
+🏥 Urgencias Matías
+Urgencias Matías es una aplicación web pensada para la gestión de una sala de urgencias. Permite a pacientes y personal médico registrarse, solicitar turnos, visualizar estadísticas y más. Está diseñada para ser intuitiva, eficiente y adaptable a distintos roles.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+🔗 Enlace a la página
+👉 Acceder a Urgencias Matías
 
-## Development server
+📸 Capturas de pantalla por sección
+🏠 Home
+Descripción:
+Vista principal de bienvenida donde los usuarios pueden acceder a distintas funcionalidades según su rol (admin, paciente, especialista).
 
-To start a local development server, run:
 
-```bash
-ng serve
-```
+📝 Registro
+Descripción:
+Formulario para nuevos usuarios. Incluye validaciones y opciones específicas para pacientes y especialistas.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+👤 Mi perfil
+Descripción:
+Cada usuario puede ver y editar su información personal, incluyendo su foto de perfil y especialidad (si aplica).
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
+📅 Mis turnos
+Descripción:
+Muestra los turnos asignados al usuario logueado, permitiendo ver el estado de cada uno.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-```bash
-ng generate --help
-```
+📋 Turnos (administrador)
+Descripción:
+Panel para visualizar y administrar todos los turnos del sistema. Incluye filtros por estado, fechas, y más.
 
-## Building
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+📊 Informes
+Descripción:
+Estadísticas y reportes visuales para el administrador, como turnos por especialidad, por médico, y más. Exportación en PDF y Excel.
