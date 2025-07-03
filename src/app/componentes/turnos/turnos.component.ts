@@ -49,12 +49,9 @@ export class TurnosComponent implements OnInit {
     }
 
     this.turnos = data || [];
-    console.log('hola');
 
     // Agregar nombres de especialista y paciente
     for (const turno of this.turnos) {
-      console.log(turno.emailEspecialista);
-      console.log(turno.emailPaciente);
       const especialista = await this.especialistaService.getEspecialistaByEmail(turno.emailEspecialista);
       const paciente = await this.pacienteService.getPacienteByEmail(turno.emailPaciente);
 

@@ -205,8 +205,6 @@ public barChartPlugins = [ChartDataLabels];
         barThickness: 40
       }];
       
-      console.log('Labels de logs:', this.labelsLogs);
-      console.log('Datasets:', this.datasetsLogs);
       this.diaConMasLogins = datos.reduce((max, item) => item.cantidad > max.cantidad ? item : max, datos[0]);
     } catch (error) {
       console.error('Error al cargar logs:', error);
@@ -228,7 +226,6 @@ public barChartPlugins = [ChartDataLabels];
       imgData = this.getCanvasImage(this.graficoLogs);
     }
 
-    console.log(imgData)
 
     if (!imgData) {
       // alert('No se encontró el gráfico para exportar');

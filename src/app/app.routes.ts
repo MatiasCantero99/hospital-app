@@ -72,7 +72,8 @@ export const routes: Routes = [
     },
     {
         path: 'informes',
-        component: InformeComponent
+        component: InformeComponent,
+        canActivate:[adminGuard]
     },
     {
         path: '**',

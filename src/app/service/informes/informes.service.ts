@@ -115,8 +115,6 @@ export class InformesService {
       .from('logs')
       .select('fechas');
 
-      console.log('👉 LOGS RAW:', data);
-
     if (error) throw error;
 
     const agrupado: Record<string, number> = {};

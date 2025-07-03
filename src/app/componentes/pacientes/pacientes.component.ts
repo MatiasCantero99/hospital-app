@@ -80,8 +80,6 @@ export class PacientesComponent implements OnInit{
       .in('idTurno', idsTurnos);
 
     this.historialClinico = historial || [];
-    console.log(this.historialClinico);
-    console.log(paciente.email);
   }
 
   volver() {

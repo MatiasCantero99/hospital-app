@@ -19,8 +19,6 @@ export class EstadoturnocolorDirective {
 
   private setColor() {
     // Primero, limpiar cualquier color previo
-    console.log('Estado recibido en directiva:', this.estado);
-    console.log(this.el.nativeElement.tagName);
     this.renderer.removeStyle(this.el.nativeElement, 'background-color');
 
     if (!this.estado) return;

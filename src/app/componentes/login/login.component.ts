@@ -35,9 +35,7 @@ export class LoginComponent {
   }
 
   async login() {
-    this.loadingService.show(); // ⏳ Mostrar spinner
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
+    this.loadingService.show();
     const { data, error } = await supabase.auth.signInWithPassword({
       email: this.email,
       password: this.password
@@ -85,7 +83,7 @@ export class LoginComponent {
         if (tabla === 'especialista' && usuarios.habilitado !== true) {
           this.toastr.error('El especialista no está habilitado por el administrador');
           await supabase.auth.signOut();
-          this.loadingService.hide(); // ✅ Ocultar spinner siempre
+          this.loadingService.hide();
           return;
         }
 
@@ -96,7 +94,7 @@ export class LoginComponent {
           fechas: new Date().toISOString()
         });
 
-        this.loadingService.hide(); // ✅ Ocultar spinner siempre
+        this.loadingService.hide();
         this.router.navigate(['/home']);
         return;
       }
@@ -104,7 +102,7 @@ export class LoginComponent {
 
     if (!userFound) {
       this.toastr.error('El usuario no está registrado en ninguna tabla');
-      this.loadingService.hide(); // ✅ Ocultar spinner siempre
+      this.loadingService.hide();
       await supabase.auth.signOut();
     }
   }
