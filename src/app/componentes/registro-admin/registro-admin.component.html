@@ -1,1 +1,49 @@
-<p>registro-admin works!</p>
+<div class="container mt-5">
+  <h3 class="text-center text-primary mb-4">Registro de Administrador</h3>
+
+  <form [formGroup]="adminForm" (ngSubmit)="register()">
+    <div class="mb-3">
+      <label class="form-label">Nombre</label>
+      <input type="text" class="form-control" formControlName="nombre">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Apellido</label>
+      <input type="text" class="form-control" formControlName="apellido">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Edad</label>
+      <input type="number" class="form-control" formControlName="edad" min="18" max="99">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">DNI</label>
+      <input type="text" class="form-control" formControlName="dni">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" formControlName="email">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Contraseña</label>
+      <input type="password" class="form-control" formControlName="password">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Foto de perfil</label>
+      <input type="file" class="form-control" (change)="onFileChange($event)">
+      <div *ngIf="fotoInvalida" class="text-danger">
+        Seleccioná una imagen.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success w-100" [disabled]="adminForm.invalid">
+      Registrar Administrador
+    </button>
+  </form>
+</div>
+
+<app-loading *ngIf="loadingService.loading$ | async"></app-loading>

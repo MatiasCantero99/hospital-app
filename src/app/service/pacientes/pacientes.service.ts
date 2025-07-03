@@ -19,4 +19,16 @@ export class PacientesService {
     if (error) throw error;
     return data;
   }
+
+  async getPacienteByEmail(email: string) {
+    const { data, error } = await this.supabase
+      .from('paciente')
+      .select('nombre, apellido')
+      .eq('email', email)
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
 }

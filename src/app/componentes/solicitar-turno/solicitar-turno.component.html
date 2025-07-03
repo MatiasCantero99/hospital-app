@@ -1,0 +1,82 @@
+ <div class="container mt-4">
+  <h2 class="text-center mb-4">Solicitar Turno</h2>
+
+  <div *ngIf="rol === 'administrador' && !pacienteSeleccionado">
+    <h4>Elegí un paciente:</h4>
+    <div class="profesionales-container">
+      <button
+        *ngFor="let paciente of pacientes"
+        class="btn btn-outline-secondary profesional-btn"
+        (click)="seleccionarPaciente(paciente)">
+        <img [src]="paciente.fotoURL || 'assets/imagenes/default-user.png'" alt="foto paciente" class="profesional-img">
+        <span class="profesional-nombre">{{ paciente.nombre }} {{ paciente.apellido }}</span>
+      </button>
+    </div>
+  </div>
+
+
+  <div *ngIf="rol === 'paciente' || (rol === 'administrador' && pacienteSeleccionado)">
+    <div *ngIf="!especialistaSeleccionado">
+      <h4>Elegí un profesional:</h4>
+      <div class="profesionales-container">
+        <button
+          *ngFor="let especialista of especialistas"
+          class="btn btn-outline-primary profesional-btn"
+          (click)="seleccionarEspecialista(especialista)">
+          <img [src]="especialista.fotoURL || 'assets/imagenes/default-user.png'" alt="foto especialista" class="profesional-img">
+          <span class="profesional-nombre">{{ especialista.nombre }} {{ especialista.apellido }}</span>
+        </button>
+      </div>
+    </div>
+
+
+  <div *ngIf="especialistaSeleccionado">
+    <h4>Profesional: {{ especialistaSeleccionado.nombre }} {{ especialistaSeleccionado.apellido }}</h4>
+    <h5>Seleccioná una especialidad:</h5>
+
+    <div class="especialidades-container">
+      <button
+  *ngFor="let especialidad of especialidades"
+  class="btn especialidad-btn"
+  [ngClass]="{
+    'btn-outline-success': especialidadSeleccionada !== especialidad,
+    'btn-success': especialidadSeleccionada === especialidad
+  }"
+  (click)="seleccionarEspecialidad(especialidad)">
+  <span class="especialidad-nombre">{{ especialidad }}</span>
+  <img
+    [src]="'assets/img/default.png'"
+    alt="imagen especialidad"
+    class="especialidad-img">
+</button>
+
+    </div>
+
+    <!-- Trunos turnosDisponibles -->
+    <div *ngIf="especialidadSeleccionada && turnosDisponibles.length > 0">
+        <h5>Elegí un día y horario:</h5>
+        <div class="turnos-container">
+            <button
+                *ngFor="let turno of turnosDisponibles"
+                class="btn"
+                [disabled]="!turno.disponible"
+                [ngClass]="{
+                  'btn-primary': turnoSeleccionado?.fecha !== turno.fecha || turnoSeleccionado?.horario !== turno.horario,
+                  'btn-success': turnoSeleccionado?.fecha === turno.fecha && turnoSeleccionado?.horario === turno.horario
+                }"
+                (click)="seleccionarTurno(turno)">
+                {{ turno.fecha }} {{ turno.horario | horarioAmPm }}
+              </button>
+        </div>
+    </div>
+
+    <div *ngIf="turnoSeleccionado" class="text-center mt-3">
+      <button class="btn btn-success" (click)="confirmarTurno()">Confirmar Turno</button>
+    </div>
+
+    <div class="text-center mt-3">
+      <button class="btn btn-secondary" (click)="volver()">Volver</button>
+    </div>
+  </div>
+</div>
+

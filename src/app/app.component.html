@@ -21,11 +21,24 @@
 
 
 
+        <li class="nav-item" *ngIf="(authService.currentUserRole$ | async) === 'paciente' || (authService.currentUserRole$ | async) === 'especialista'">
+          <a class="nav-link" routerLink="misTurnos" routerLinkActive="active">Mis Turnos</a>
+        </li>
+        <li class="nav-item" *ngIf="(authService.currentUserRole$ | async) === 'especialista'">
+          <a class="nav-link" routerLink="pacientes" routerLinkActive="active">Pacientes</a>
+        </li>
+
         <li class="nav-item" *ngIf="(authService.currentUserRole$ | async) === 'administrador'">
           <a class="nav-link" routerLink="usuario" routerLinkActive="active">Usuario</a>
         </li>
+        <li class="nav-item" *ngIf="(authService.currentUserRole$ | async) === 'administrador'">
+          <a class="nav-link" routerLink="turnos" routerLinkActive="active">Turnos</a>
+        </li>
+        <li class="nav-item" *ngIf="(authService.currentUserRole$ | async) === 'administrador'">
+          <a class="nav-link" routerLink="solicitarTurno" routerLinkActive="active">Solicitar Turno</a>
+        </li>
         <li class="nav-item" *ngIf="authService.isLoggedIn$ | async">
-          <a class="nav-link" routerLink="miPerfil" routerLinkActive="active">Mi perfil</a>
+          <a class="nav-link" routerLink="miPerfil" routerLinkActive="active">Mi Perfil</a>
         </li>
 
         <li class="nav-item" *ngIf="authService.isLoggedIn$ | async">
@@ -40,6 +53,7 @@
 <main [@routeAnimation]="prepareRoute(outlet)">
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
+
 <!-- <router-outlet /> -->
 
 <footer class="bg-light text-center text-muted py-3 mt-5 border-top">

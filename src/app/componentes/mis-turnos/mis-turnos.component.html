@@ -1,0 +1,162 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Mis Turnos</h2>
+  <div class="mb-3 text-center">
+    <input
+      type="text"
+      [(ngModel)]="filtro"
+      placeholder="Filtrar..."
+      class="form-control d-inline w-auto me-2"
+    >
+  </div>
+
+
+  <table *ngIf="turnosFiltrados.length > 0" class="table table-bordered text-center align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Especialidad</th>
+        <th *ngIf="rol === 'paciente'">Especialista</th>
+        <th *ngIf="rol === 'especialista'">Paciente</th>
+        <th>Fecha</th>
+        <th>Horario</th>
+        <th *ngIf="hayResena() && rol === 'paciente'">Reseña</th>
+        <th *ngIf="hayComentario() && rol === 'especialista'">Atención</th>
+        <th *ngIf="hayComentarioCancelado() && (rol === 'especialista' || rol === 'paciente')">Cancelado</th>
+        <th *ngIf="rol === 'especialista' && hayComentario()">Nota</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let turno of turnosFiltrados">
+        <td>{{ turno.especialidad }}</td>
+        <td *ngIf="rol === 'paciente'">{{ turno.especialista_nombre }}</td>
+        <td *ngIf="rol === 'especialista'">{{ turno.paciente_nombre }}</td>
+        <td>{{ turno.fecha }}</td>
+        <td>{{turno.horario}}</td>
+        <td *ngIf="hayResena() && rol === 'paciente'">{{ turno.resena }}</td>
+        <td *ngIf="hayComentario() && rol === 'especialista'">{{ turno.atencion }}</td>
+        <th *ngIf="hayComentarioCancelado() && (rol === 'especialista' || rol === 'paciente')">{{turno.comentarioCancelado}}</th>
+
+        <td *ngIf="rol === 'especialista' && hayComentario()">
+          <ng-container *ngIf="turno.nota">
+            <ng-container *ngFor="let estrella of [1,2,3,4,5]">
+              <i 
+                class="bi" 
+                [ngClass]="{
+                  'bi-star-fill': estrella <= turno.nota,
+                  'bi-star': estrella > turno.nota
+                }"
+                style="color: gold;">
+              </i>
+            </ng-container>
+          </ng-container>
+        </td>
+        <td>
+          <span class="badge bg-info">{{ turno.estado }}</span>
+        </td>
+        <td>
+          <!-- PACIENTE -->
+          <button *ngIf="rol === 'paciente' && turno.estado !== 'Realizado' && turno.estado !== 'Cancelado'" class="btn btn-danger btn-sm" (click)="abrirModal('Cancelar Turno', turno, 'cancelar')">Cancelar</button>
+          <button *ngIf="rol === 'paciente' && turno.estado === 'Realizado' && !turno.comentarioCancelado && !turno.atencion" class="btn btn-primary btn-sm" (click)="abrirModal('Calificar Atención', turno, 'calificar')">Calificar Atención</button>
+         
+
+          <!-- ESPECIALISTA -->
+          <button *ngIf="rol === 'especialista' && turno.estado === 'Pendiente'" class="btn btn-danger btn-sm" (click)="abrirModal('Cancelar Turno', turno, 'cancelar')">Cancelar</button>
+          <button *ngIf="rol === 'especialista' && turno.estado === 'Pendiente'" class="btn btn-warning btn-sm" (click)="abrirModal('Rechazar Turno', turno, 'rechazar')">Rechazar</button>
+          <button *ngIf="rol === 'especialista' && turno.estado === 'Pendiente'" class="btn btn-success btn-sm" (click)="aceptarTurno(turno)">Aceptar</button>
+          <button *ngIf="rol === 'especialista' && turno.estado === 'Aceptado'" class="btn btn-primary btn-sm" (click)="abrirModal('Finalizar Turno', turno, 'finalizar')">Finalizar</button>
+          <button *ngIf="rol === 'especialista' && turno.estado === 'Realizado' && !turno.tieneHistorialClinico" class="btn btn-info btn-sm" (click)="abrirModalHistoria(turno)">Cargar Historia Clínica</button>
+      
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="turnosFiltrados.length === 0" class="text-center">
+    <p class="text-muted">No se encontraron turnos.</p>
+  </div>
+
+  <div class="text-center mt-3">
+    <button *ngIf="rol === 'paciente'" class="btn btn-primary" (click)="irASolicitarTurno()">Solicitar Turno</button>
+  </div>
+
+  <app-loading *ngIf="loadingService.loading$ | async"></app-loading>
+
+  <div class="modal fade" id="comentarioModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitulo }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <textarea [(ngModel)]="comentarioModalTexto" rows="4" class="form-control" placeholder="Escribe aquí..."></textarea>
+
+          <div *ngIf="accionModal === 'calificar'" class="mb-3">
+          <label class="form-label">Puntuación:</label>
+          <div class="d-flex">
+            <ng-container *ngFor="let estrella of [1,2,3,4,5]">
+              <i 
+                class="bi"
+                [ngClass]="{
+                  'bi-star-fill': estrella <= notaCalificacion,
+                  'bi-star': estrella > notaCalificacion
+                }"
+                (click)="notaCalificacion = estrella"
+                style="font-size: 1.5rem; cursor: pointer; color: gold;">
+              </i>
+            </ng-container>
+          </div>
+        </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="confirmarComentario()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="historiaClinicaModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cargar Historia Clínica</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">
+            <label>Altura (cm)</label>
+            <input type="number" [(ngModel)]="historiaClinica.altura" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label>Peso (kg)</label>
+            <input type="number" [(ngModel)]="historiaClinica.peso" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label>Temperatura (°C)</label>
+            <input type="number" [(ngModel)]="historiaClinica.temperatura" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label>Presión</label>
+            <input type="text" [(ngModel)]="historiaClinica.presion" class="form-control">
+          </div>
+          <div class="mb-2" *ngFor="let extra of historiaClinica.extras; let i = index">
+            <label>Campo adicional {{ i + 1 }}</label>
+            <div class="input-group">
+              <input type="text" [(ngModel)]="extra.nombre" placeholder="Nombre" class="form-control">
+              <input type="text" [(ngModel)]="extra.valor" placeholder="Valor" class="form-control">
+            </div>
+          </div>
+          <button *ngIf="historiaClinica.extras.length < 3" class="btn btn-link p-0" (click)="agregarCampoExtra()">+ Agregar campo</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="confirmarHistoriaClinica()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

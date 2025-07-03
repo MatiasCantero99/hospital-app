@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Turnos de la Clínica</h2>
+
+  <div class="mb-3 text-center">
+    <input
+      type="text"
+      [(ngModel)]="filtro"
+      placeholder="Filtrar por especialidad o especialista..."
+      class="form-control d-inline w-auto"
+    >
+  </div>
+
+  <table *ngIf="turnosFiltrados.length > 0" class="table table-bordered text-center align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Especialidad</th>
+        <th>Especialista</th>
+        <th>Paciente</th>
+        <th>Fecha</th>
+        <th>Horario</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let turno of turnosFiltrados">
+        <td>{{ turno.especialidad }}</td>
+        <td>{{ turno.especialista_nombre }}</td>
+        <td>{{ turno.paciente_nombre }}</td>
+        <td>{{ turno.fecha }}</td>
+        <td>{{ turno.horario }}</td>
+        <td>
+          <span class="badge bg-info">{{ turno.estado }}</span>
+        </td>
+        <td>
+          <button
+            *ngIf="turno.estado !== 'Aceptado' && turno.estado !== 'Realizado' && turno.estado !== 'Rechazado' && turno.estado !== 'Cancelado'"
+            class="btn btn-danger btn-sm"
+            (click)="abrirModalCancelar(turno)">
+            Cancelar
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="turnosFiltrados.length === 0" class="text-center">
+    <p class="text-muted">No se encontraron turnos.</p>
+  </div>
+
+  <app-loading *ngIf="loadingService.loading$ | async"></app-loading>
+
+  <!-- Modal Cancelar -->
+  <div class="modal fade" id="comentarioModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancelar Turno</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <textarea [(ngModel)]="comentarioModalTexto" rows="4" class="form-control" placeholder="Escribe aquí el motivo de la cancelación..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="confirmarCancelar()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

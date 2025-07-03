@@ -33,7 +33,7 @@ export class AuthService {
   }
 
     this.supabase.auth.onAuthStateChange((event, session) => {
-      console.log('Cambio de sesión:', event, session);
+      // console.log('Cambio de sesión:', event, session);
       this.isLoggedIn$.next(!!session);
       this.currentUser$.next(session?.user ?? null);
     });

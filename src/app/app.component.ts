@@ -4,7 +4,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { AuthService } from './service/auth/auth.service';
 import { LoadingComponent } from './componentes/loading/loading.component';
 import { trigger, transition, style, animate, query, group } from '@angular/animations';
-import { routeAnimations } from './animaciones/route-animations';
+import { routeAnimation} from './animaciones/route-animations';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { routeAnimations } from './animaciones/route-animations';
   imports: [RouterOutlet, RouterLinkActive, RouterLink, NgIf, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  animations: [routeAnimations]
+  animations: [routeAnimation]
 })
 export class AppComponent {
   title = 'hospital-app';

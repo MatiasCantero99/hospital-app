@@ -58,57 +58,37 @@ export class MisHorariosComponent implements OnInit {
   }
 
   generarHoras(desde: string, hasta: string): string[] {
-    const horas: string[] = [];
-    let [h, m] = desde.split(':').map(Number);
-    const [hf, mf] = hasta.split(':').map(Number);
+  const horas: string[] = [];
+  let [h, m] = desde.split(':').map(Number);
+  const [hf, mf] = hasta.split(':').map(Number);
 
-    while (h < hf || (h === hf && m < mf)) {
-      const horaStr = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-      horas.push(horaStr);
-      m += 30;
-      if (m >= 60) {
-        m = 0;
-        h++;
-      }
+  while (h < hf || (h === hf && m < mf)) {
+    horas.push(`${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`);
+    m += 30;
+    if (m >= 60) {
+      m = 0;
+      h++;
     }
-
-    return horas;
   }
 
+  horas.push(`${hf.toString().padStart(2, '0')}:${mf.toString().padStart(2, '0')}`);
+
+  return horas;
+}
+
+
   generarTurnos30min(inicio: string, fin: string): string[] {
-    const todas = this.generarHoras(inicio, fin + ':00');
+    const todas = this.generarHoras(inicio, fin);
     const turnos: string[] = [];
 
     for (let i = 0; i < todas.length - 1; i++) {
-      if (todas[i] >= inicio && todas[i + 1] <= fin) {
-        turnos.push(`${todas[i]} - ${todas[i + 1]}`);
-      }
+      turnos.push(`${todas[i]} - ${todas[i + 1]}`);
     }
 
     return turnos;
   }
 
-  // async guardarHorarios() {
-  //   if (!this.especialidadSeleccionada || !this.diaSeleccionado || !this.horaInicio || !this.horaFin) return;
 
-  //   const turnos = this.generarTurnos30min(this.horaInicio, this.horaFin);
-  //   const nuevosTurnos = turnos.map(t => ({
-  //     email: this.email,
-  //     especialidad: this.especialidadSeleccionada,
-  //     dia: this.diaSeleccionado,
-  //     hora: t
-  //   }));
-
-  //   const { error } = await this.supabase
-  //     .from('mis_horarios')
-  //     .insert(nuevosTurnos);
-
-  //   if (!error) {
-  //     this.cargarHorarios();
-  //   } else {
-  //     console.error('Error al guardar horarios:', error.message);
-  //   }
-  // }
   async guardarHorarios() {
     if (!this.especialidadSeleccionada || !this.diaSeleccionado || !this.horaInicio || !this.horaFin) {
       this.toastr.warning('Completá todos los campos antes de guardar.', 'Faltan datos');

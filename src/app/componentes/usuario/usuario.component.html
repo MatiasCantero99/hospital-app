@@ -1,49 +1,102 @@
 <div class="container mt-4">
-  <h2 class="text-center mb-4">Usuarios</h2>
+  <h2 class="text-center mb-4">Panel de Usuarios</h2>
+  <button class="btn btn-outline-primary ms-2" (click)="exportarExcelGeneral()">Descargar Excel General</button>
 
-  <div class="mb-3 text-center">
-    <select class="form-select w-auto d-inline" [(ngModel)]="tipoSeleccionado" (change)="cargarUsuarios()">
-      <option value="especialista">Especialistas</option>
-      <option value="administrador">Administradores</option>
-      <option value="paciente">Pacientes</option>
-    </select>
 
-    <button class="btn btn-primary ms-2" (click)="exportarExcel()">Descargar Excel</button>
+  <!-- Botones principales -->
+  <div class="mb-4 text-center">
+    <button class="btn btn-primary me-2" (click)="vista = 'usuarios'">Usuarios</button>
+    <button class="btn btn-success me-2" (click)="vista = 'registro'">Registrar Usuarios</button>
+    <button class="btn btn-info" (click)="vista = 'historial'; cargarHistoriasClinicas()">Historial Clínico</button>
   </div>
 
-  <table class="table table-bordered text-center align-middle">
-    <thead class="table-dark">
-      <tr>
-        <th>Foto</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Email</th>
-        <th *ngIf="tipoSeleccionado === 'especialista'">Habilitado</th>
-        <th *ngIf="tipoSeleccionado === 'especialista'">Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of usuarios">
-        <td>
-          <img [src]="user.fotoURL" alt="Foto" width="60" height="60" class="rounded-circle border">
-        </td>
-        <td>{{ user.nombre }}</td>
-        <td>{{ user.apellido }}</td>
-        <td>{{ user.email }}</td>
-        <td *ngIf="tipoSeleccionado === 'especialista'">
-          <span class="badge" [ngClass]="user.habilitado ? 'bg-success' : 'bg-danger'">
-            {{ user.habilitado ? 'Sí' : 'No' }}
-          </span>
-        </td>
-        <td *ngIf="tipoSeleccionado === 'especialista'">
-          <button (click)="cambiarEstado(user)" class="btn btn-sm"
-                  [ngClass]="user.habilitado ? 'btn-danger' : 'btn-success'">
-            {{ user.habilitado ? 'Deshabilitar' : 'Habilitar' }}
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div *ngIf="vista === 'usuarios'">
+    <div class="mb-3 text-center">
+      <select class="form-select w-auto d-inline" [(ngModel)]="tipoSeleccionado" (change)="cargarUsuarios()">
+        <option value="especialista">Especialistas</option>
+        <option value="administrador">Administradores</option>
+        <option value="paciente">Pacientes</option>
+      </select>
+
+      <button class="btn btn-primary ms-2" (click)="exportarExcel()">Descargar Excel</button>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col" *ngFor="let user of usuarios">
+        <div class="card h-100 text-center"
+          [ngClass]="{'card-hover': tipoSeleccionado === 'paciente'}"
+          (click)="tipoSeleccionado === 'paciente' && exportarHistorialPaciente(user)">
+          <img [src]="user.fotoURL" alt="Foto" class="card-img-top rounded-circle mx-auto mt-3" style="width: 100px; height: 100px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title">{{ user.nombre }} {{ user.apellido }}</h5>
+            <p class="card-text">
+              <strong>Edad:</strong> {{ user.edad }}<br>
+              <strong>Email:</strong> {{ user.email }}<br>
+              <span *ngIf="tipoSeleccionado === 'paciente'">
+                <strong>Obra social:</strong> {{ user.obraSocial }}
+              </span>
+            </p>
+
+            <!-- Si es especialista, mostrar estado y botón -->
+            <div *ngIf="tipoSeleccionado === 'especialista'">
+              <span class="badge" [ngClass]="user.habilitado ? 'bg-success' : 'bg-danger'">
+                {{ user.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+              </span>
+              <br>
+              <button (click)="cambiarEstado(user)" class="btn btn-sm mt-2"
+                [ngClass]="user.habilitado ? 'btn-danger' : 'btn-success'">
+                {{ user.habilitado ? 'Deshabilitar' : 'Habilitar' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="vista === 'registro'" class="text-center">
+    <h4>Elegi que usuario registrar:</h4>
+    <button class="btn btn-outline-primary me-2" (click)="registroTipo = 'paciente'">Registrar Paciente</button>
+    <button class="btn btn-outline-primary me-2" (click)="registroTipo = 'especialista'">Registrar Especialista</button>
+    <button class="btn btn-outline-primary" (click)="registroTipo = 'admin'">Registrar Admin</button>
+  </div>
+
+  <div *ngIf="vista === 'registro'" class="mt-4">
+  <app-registro-paciente *ngIf="registroTipo === 'paciente'"></app-registro-paciente>
+  <app-registro-especialista *ngIf="registroTipo === 'especialista'"></app-registro-especialista>
+  <app-registro-admin *ngIf="registroTipo === 'admin'"></app-registro-admin>
+</div>
+
+  <!-- Vista Historial Clínico -->
+  <div *ngIf="vista === 'historial'">
+    <h4 class="text-center">Historial Clínico</h4>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let h of historiasClinicas">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Paciente: {{ h.paciente.nombre }} {{ h.paciente.apellido }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Especialista: {{ h.especialista.nombre }} {{ h.especialista.apellido }}</h6>
+            <p class="card-text">
+              <strong>Fecha:</strong> {{ h.fecha }} <br>
+              <strong>Horario:</strong> {{ h.horario | horarioAmPm}} <br>
+              <strong>Altura:</strong> {{ h.altura }} cm <br>
+              <strong>Peso:</strong> {{ h.peso }} kg <br>
+              <strong>Temperatura:</strong> {{ h.temperatura }} °C <br>
+              <strong>Presión:</strong> {{ h.presion }} mmHg <br>
+              <span *ngIf="h.campoExtra1_nombre || h.campoExtra2_nombre || h.campoExtra3_nombre">
+                <strong>Datos extra:</strong><br>
+                <span *ngIf="h.campoExtra1_nombre"> *<strong>{{h.campoExtra1_nombre}}:</strong> {{ h.campoExtra1_valor }}<br></span>
+                <span *ngIf="h.campoExtra2_nombre"> *<strong>{{h.campoExtra2_nombre}}:</strong> {{ h.campoExtra2_valor }}<br></span>
+                <span *ngIf="h.campoExtra3_nombre"> *<strong>{{h.campoExtra3_nombre}}:</strong> {{ h.campoExtra3_valor }}<br></span>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-loading *ngIf="loadingService.loading$ | async"></app-loading>

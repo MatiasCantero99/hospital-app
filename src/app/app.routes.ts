@@ -6,6 +6,10 @@ import { UsuarioComponent } from './componentes/usuario/usuario.component';
 import { adminGuard } from './guards/admin.guard';
 import { MiPerfilComponent } from './componentes/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './componentes/mis-horarios/mis-horarios.component';
+import { MisTurnosComponent } from './componentes/mis-turnos/mis-turnos.component';
+import { SolicitarTurnoComponent } from './componentes/solicitar-turno/solicitar-turno.component';
+import { TurnosComponent } from './componentes/turnos/turnos.component';
+import { PacientesComponent } from './componentes/pacientes/pacientes.component';
 
 export const routes: Routes = [
     {
@@ -15,7 +19,8 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        data: {animation: 'login'}
     },
     {
         path: 'home',
@@ -25,6 +30,29 @@ export const routes: Routes = [
         path: 'usuario',
         component: UsuarioComponent,
         canActivate:[adminGuard]
+    },
+    {
+        path: 'turnos',
+        component: TurnosComponent,
+        canActivate:[adminGuard]
+    },
+    {
+        path: 'solicitarTurnos',
+        component: SolicitarTurnoComponent,
+        canActivate:[adminGuard]
+    },
+    {
+        path: 'misTurnos',
+        component: MisTurnosComponent,
+        // canActivate:[adminGuard]
+    },
+    {
+        path: 'pacientes',
+        component: PacientesComponent,
+    },
+    {
+        path: 'solicitarTurno',
+        component: SolicitarTurnoComponent
     },
     {
         path: 'miPerfil',

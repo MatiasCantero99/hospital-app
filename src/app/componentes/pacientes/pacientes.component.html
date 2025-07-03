@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Mis Pacientes</h2>
+
+  <!-- Lista de pacientes -->
+  <div *ngIf="!pacienteSeleccionado">
+    <div class="row">
+      <div *ngFor="let paciente of pacientes" class="col-md-3 text-center mb-4">
+        <button class="btn btn-outline-primary paciente-btn" (click)="seleccionarPaciente(paciente)">
+            <div class="img-fav-wrapper">
+            <img [src]="paciente.fotoURL || 'assets/imagenes/default-user.png'" alt="foto paciente">
+            <i class="fa fa-star favbutton"></i>
+            <div class="nombre-paciente">{{ paciente.nombre }} {{ paciente.apellido }}</div>
+        </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detalles del paciente seleccionado -->
+  <div *ngIf="pacienteSeleccionado">
+    <h4>Paciente: {{ pacienteSeleccionado.nombre }} {{ pacienteSeleccionado.apellido }}</h4>
+
+    <h5>Turnos:</h5>
+    <ul>
+      <li *ngFor="let turno of turnosDelPaciente">
+        📅 {{ turno.fecha }} 🕒 {{ turno.horario }} | <strong>Reseña:</strong> {{ turno.resena || 'Sin reseña' }}
+      </li>
+    </ul>
+
+    <h5>Historial Clínico:</h5>
+    <div *ngFor="let h of historialClinico" class="historial-item p-3 mb-3 border rounded">
+        <div><strong>Altura:</strong> {{ h.altura }} cm</div>
+        <div><strong>Peso:</strong> {{ h.peso }} kg</div>
+        <div><strong>Presión:</strong> {{ h.presion }}</div>
+        <div><strong>Temperatura:</strong> {{ h.temperatura }} °C</div>
+
+        <!-- Mostrar datos extra solo si hay al menos uno -->
+        <div *ngIf="h.campoExtra1_nombre || h.campoExtra2_nombre || h.campoExtra3_nombre" class="mt-2">
+            <strong>Datos extra:</strong>
+            <ul class="list-unstyled ms-3">
+            <li *ngIf="h.campoExtra1_nombre">{{ h.campoExtra1_nombre }}: {{ h.campoExtra1_valor }}</li>
+            <li *ngIf="h.campoExtra2_nombre">{{ h.campoExtra2_nombre }}: {{ h.campoExtra2_valor }}</li>
+            <li *ngIf="h.campoExtra3_nombre">{{ h.campoExtra3_nombre }}: {{ h.campoExtra3_valor }}</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <button class="btn btn-secondary mt-3" (click)="volver()">Volver</button>
+  </div>
+</div>

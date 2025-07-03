@@ -39,4 +39,26 @@ export class EspecialistaService {
     if (error) throw error;
     return data.map(e => e.especialidad);
   }
+
+  async getEspecialistaByEmail(email: string) {
+    const { data, error } = await this.supabase
+      .from('especialista')
+      .select('nombre, apellido')
+      .eq('email', email)
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
+  async getHorariosByEspecialistaYEspecialidad(email: string, especialidad: string) {
+    const { data, error } = await this.supabase
+      .from('mis_horarios')
+      .select('*')
+      .eq('email', email)
+      .eq('especialidad', especialidad);
+
+    if (error) throw error;
+    return data;
+  }
 }

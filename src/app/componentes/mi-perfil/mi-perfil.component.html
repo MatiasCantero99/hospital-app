@@ -28,8 +28,38 @@
         </button>
     </div>
 
+    <div class="text-center mt-3" *ngIf="usuario.rol === 'paciente'">
+    <h5>Descargar Historial Clínico:</h5>
+    <div *ngFor="let especialista of especialistas" class="mb-2">
+      <button class="btn btn-outline-success"
+        (click)="descargarPDF(especialista.email)">
+        Descargar historial con Dr. {{ especialista.nombre }} {{ especialista.apellido }}
+      </button>
+    </div>
   </div>
-</div>
+
+  </div>
+
+<div class="card p-3 shadow mt-4" *ngIf="usuario.rol === 'paciente' && historiasClinicas.length > 0">
+    <h5 class="mb-3">Mi Historial Clínico Completo:</h5>
+    <div *ngFor="let h of historiasClinicas" class="border-bottom pb-2 mb-2">
+      <p><strong>Fecha:</strong> {{ h.turno.fecha }} - <strong>Horario:</strong> {{ h.turno.horario }}</p>
+      <p><strong>Altura:</strong> {{ h.altura }} cm</p>
+      <p><strong>Peso:</strong> {{ h.peso }} kg</p>
+      <p><strong>Temperatura:</strong> {{ h.temperatura }} °C</p>
+      <p><strong>Presión:</strong> {{ h.presion }}</p>
+
+      <div *ngIf="h.campoExtra1_nombre || h.campoExtra2_nombre || h.campoExtra3_nombre">
+        <strong>Campos Extra:</strong>
+        <ul class="mb-0">
+          <li *ngIf="h.campoExtra1_nombre">{{ h.campoExtra1_nombre }}: {{ h.campoExtra1_valor }}</li>
+          <li *ngIf="h.campoExtra2_nombre">{{ h.campoExtra2_nombre }}: {{ h.campoExtra2_valor }}</li>
+          <li *ngIf="h.campoExtra3_nombre">{{ h.campoExtra3_nombre }}: {{ h.campoExtra3_valor }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
 
 <ng-template #cargando>
   <div class="text-center mt-5">
