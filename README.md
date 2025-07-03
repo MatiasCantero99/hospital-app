@@ -8,56 +8,56 @@ Urgencias Matías es una aplicación web pensada para la gestión de una sala de
 
 ---
 
-#🏠 Home
+# 🏠 Home
 Descripción:
 Vista principal de bienvenida donde los usuarios pueden acceder a distintas funcionalidades según su rol (admin, paciente, especialista).
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/home.png">
 
 
-#📝 Registro
+# 📝 Registro
 Descripción:
 Formulario para nuevos usuarios. Incluye validaciones y opciones específicas para pacientes y especialistas.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/registro.png">
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/registro1.png">
 
 
-#📝 Login
+# 📝 Login
 Descripción:
 Ingreso a la pag en su completo uso para administrador, pacientes o especialistas.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/login.png">
 
 
-#👤 Mi perfil
+# 👤 Mi perfil
 Descripción:
 Cada usuario puede ver su información personal, incluyendo su foto de perfil y sus respectivos datos para cada tipo.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/miperfil.png">
 
 
-#📅 Mis turnos
+# 📅 Mis turnos
 Descripción:
 Muestra los turnos asignados al usuario logueado(sea paciente) o de los pacientes del especialista, permitiendo ver el estado de cada uno.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/misturnos.png">
 
 
-#📋 Turnos (administrador)
+# 📋 Turnos (administrador)
 Descripción:
 Panel para visualizar y administrar todos los turnos del sistema. Pudiendo cancelar los no realizados.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/pacientes.png">
 
 
-#📋 Usuarios (administrador)
+# 📋 Usuarios (administrador)
 Descripción:
 Vista de todos los usuarios, capacidad para habilitar especialistas y registrar incluido a otro administrador.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/usuarios.png">
 
 
-#👤 Pacientes
+# 👤 Pacientes
 Descripción:
 Vista de los pacientes del especialista y poder ver su historial clinico.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/miperfil.png">
 
 
-#📊 Informes
+# 📊 Informes
 Descripción:
 Estadísticas y reportes visuales para el administrador, como turnos por especialidad, por médico, y más. Exportación en PDF y Excel.
 <img width="958" alt="readme" src="https://github.com/MatiasCantero99/hospital-app/blob/master/src/assets/readme/informes.png">
